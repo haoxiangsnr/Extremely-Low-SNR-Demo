@@ -1,27 +1,18 @@
 import { connect } from 'dva';
 import React, { Component } from 'react';
 import { Button, Row, Col, Layout, notification  } from 'antd'
+import FetchTextPage from './FetchTextPage'
 import Header from '../components/Header'
 import Banner from '../components/Banner'
 import Recorder from 'recorder-js'
+import fetch from 'dva/fetch'
 import request from '../utils/request'
 import randomNum from '../utils/randomNum'
-import FetchTextPage from './FetchTextPage'
 import styles from './IndexPage.module.less'
-
+import _ from 'lodash'
 /*CONST*/
-const POST_URL = `http://183.175.14.88:8080/post`
+const POST_URL = `http://183.175.14.88:8080/post`;
 const USER_ID = randomNum(20);
-
-const isEmpty = (arr) => {
-    if (arr.length) {
-        if (Object.keys(arr[0]).length) {
-            return true;
-        }
-    }
-    return false;
-};
-
 
 class IndexPage extends Component {
 
@@ -31,7 +22,7 @@ class IndexPage extends Component {
             record: false, // 打开或关闭录音机
             recording: false, // 是否正在录音，与recorder不同
             cyclicTrans: false,
-            timer: 0
+            texts: []
         }
     }
 
@@ -80,7 +71,6 @@ class IndexPage extends Component {
     handleRecord = () => {
         let { record, recording } = this.state;
 
-
         if (record && recording) {
             this.stopCyclicTransTimer();
             this.clearTimer();
@@ -107,33 +97,34 @@ class IndexPage extends Component {
                         cyclicTrans: true
                     })
                 })
-            }, 1000);
+            }, 3000);
         }
     };
 
     stopRecording = (timeStamp) => {
-        const {dispatch} = this.props;
-
         this.recorder.stop()
         .then(({blob}) => {
-            console.log(this.props.timeStamps)
             this.getAndSendBlobOfBase64(blob, timeStamp);
-            dispatch({
-                type: "timeStamp/add",
-                payload: {
-                    timeStamp: this.timeFormatting(timeStamp),
-                    userId: USER_ID,
-                    text: ''
-                }
-            });
-        })
+        });
+    };
+
+    parseJSON = (response) => {
+        return response.json();
+    }
+
+    checkStatus = (response) => {
+        if (response.status >= 200 && response.status < 300) {
+            return response;
+        }
+        const error = new Error(response.statusText);
+        error.response = response;
+        throw error;
     };
 
     getAndSendBlobOfBase64 = (blob, timeStamp) => {
         let reader = new FileReader();
         reader.addEventListener("load", (e) => {
-
-            request(POST_URL, {
+            fetch(POST_URL, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -143,7 +134,16 @@ class IndexPage extends Component {
                     timestamp: this.timeFormatting(timeStamp),
                     content: e.target.result
                 })
-            });
+            })
+                .then(this.checkStatus)
+                .then(this.parseJSON)
+                .then(data => {
+                    let texts = this.state.texts;
+                    this.setState({
+                        texts: texts.
+                    })
+                })
+                .catch( err => ({ err }));
         });
         reader.readAsDataURL(blob);
     };
@@ -166,7 +166,7 @@ class IndexPage extends Component {
 
 
     render() {
-        let { timer, record, recording } = this.state;
+        let { record, recording } = this.state;
         let signalWord;
 
         if (record && recording) {
@@ -178,14 +178,6 @@ class IndexPage extends Component {
         else {
             signalWord = `开始`
         }
-/*        while (isEmpty(this.props.timeStamps)) {
-           this.props.dispatch({
-               type: 'timeStamp/fetch_text',
-               payload: {
-
-               }
-           })
-        }*/
 
         return (
             <div className="App">
@@ -207,7 +199,7 @@ class IndexPage extends Component {
                 <Layout className={styles.content}>
                     <Row>
                         <Col span={14} offset={5}>
-                            <FetchTextPage start={record} USER_ID={USER_ID}/>
+                            <FetchTextPage start={record} USER_ID={USER_ID} />
                         </Col>
                     </Row>
                 </Layout>
@@ -218,6 +210,4 @@ class IndexPage extends Component {
 IndexPage.propTypes = {
 };
 
-export default connect((state) => {
-    return {timeStamps: state.timeStamp}
-})(IndexPage);
+export default connect()(IndexPage);

@@ -1,8 +1,5 @@
-import { Layout, Menu, List} from 'antd';
-import styles from './FetchTextPage.module.less'
+import {List} from 'antd';
 import React, {Component} from 'react'
-import request from '../utils/request'
-const GET_TEXT_URL = `http://183.175.14.88:8080/get`;
 
 export default class FetchTextPage extends Component {
     constructor(props) {
@@ -12,32 +9,9 @@ export default class FetchTextPage extends Component {
             search: false
         }
     }
-    // componentDidUpdate = () => {
-    //     const {record, USERID} = this.props;
-    //     if (record) {
-    //         request(GET_TEXT_URL, {
-    //             method: 'GET',
-    //             headers: {
-    //                 'Content-Type': 'application/json'
-    //             },
-    //             body: {
-    //                 'userid': USERID
-    //             }
-    //         })
-    //     }
-    //
-
-    // componentDidUpdate = () => {
-    //     const {dispatch, record, USER_ID} = this.props;
-    //     dispatch({
-    //         type: 'timeStamp/search'
-    //     });
-    //     // if (record)
-    // }
 
     render () {
         const { data } = this.state;
-        const { USERID } = this.props;
         return (
             <List
                 dataSource={data}
