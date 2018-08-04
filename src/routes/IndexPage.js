@@ -1,12 +1,10 @@
 import { connect } from 'dva';
 import React, { Component } from 'react';
-import { Button, Row, Col, Layout, notification  } from 'antd'
-import FetchTextPage from './FetchTextPage'
+import { Button, Row, Card,Col, Layout, notification  } from 'antd'
 import Header from '../components/Header'
 import Banner from '../components/Banner'
 import Recorder from 'recorder-js'
 import fetch from 'dva/fetch'
-import request from '../utils/request'
 import randomNum from '../utils/randomNum'
 import styles from './IndexPage.module.less'
 import _ from 'lodash'
@@ -22,7 +20,7 @@ class IndexPage extends Component {
             record: false, // 打开或关闭录音机
             recording: false, // 是否正在录音，与recorder不同
             cyclicTrans: false,
-            texts: []
+            dataSource: []
         }
     }
 
@@ -110,7 +108,7 @@ class IndexPage extends Component {
 
     parseJSON = (response) => {
         return response.json();
-    }
+    };
 
     checkStatus = (response) => {
         if (response.status >= 200 && response.status < 300) {
@@ -119,6 +117,10 @@ class IndexPage extends Component {
         const error = new Error(response.statusText);
         error.response = response;
         throw error;
+    };
+
+    sortedByTimeStamp = (objList) => {
+        return _.sortBy(objList, 'timeStamp');
     };
 
     getAndSendBlobOfBase64 = (blob, timeStamp) => {
@@ -138,10 +140,14 @@ class IndexPage extends Component {
                 .then(this.checkStatus)
                 .then(this.parseJSON)
                 .then(data => {
-                    let texts = this.state.texts;
+                    const {dataSource} = this.state;
+                    console.log('dataSource', dataSource);
                     this.setState({
-                        texts: texts.
-                    })
+                       dataSource: this.sortedByTimeStamp(dataSource.concat({
+                           timeStamp: data.timestamp,
+                           text: data.content
+                       }))
+                    });
                 })
                 .catch( err => ({ err }));
         });
@@ -166,7 +172,7 @@ class IndexPage extends Component {
 
 
     render() {
-        let { record, recording } = this.state;
+        let { record, dataSource, recording } = this.state;
         let signalWord;
 
         if (record && recording) {
@@ -199,7 +205,13 @@ class IndexPage extends Component {
                 <Layout className={styles.content}>
                     <Row>
                         <Col span={14} offset={5}>
-                            <FetchTextPage start={record} USER_ID={USER_ID} />
+                            <Card title={'语音转换结果'}>
+                                {dataSource.map( (e, i) => {
+                                    return (
+                                        <span key={e.timeStamp}>{e.text}</span>
+                                    )
+                                })}
+                            </Card>
                         </Col>
                     </Row>
                 </Layout>

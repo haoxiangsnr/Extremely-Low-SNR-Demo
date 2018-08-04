@@ -1,4 +1,4 @@
-import { Layout, Row, Col, List} from 'antd';
+import { Row, Col, List} from 'antd';
 import styles from './Banner.module.less'
 
 
@@ -14,6 +14,7 @@ export default function Banner ({children}) {
                     dataSource={dataSource}
                     size={"small"}
                     bordered={true}
+                    header={"注意"}
                     renderItem={item => (<List.Item> {item} </List.Item>)}
                 />
             </Col>
