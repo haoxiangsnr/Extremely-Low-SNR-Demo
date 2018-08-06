@@ -1,12 +1,12 @@
-import { Layout, Menu} from 'antd';
-import { Link } from 'dva/router'
+import {Layout,Icon, Menu} from 'antd';
+import {Link} from 'dva/router'
 import styles from './Header.module.less'
 
 function Header ({selectedKeys,children}) {
     return (
         <Layout>
             <Layout.Header theme="light" className={styles.header}>
-                <div className={styles.title}>语音实时翻译</div>
+                <div className={styles.title}><Icon type="api" />语音实时翻译</div>
                 <Menu
                     className={styles.menu}
                     mode="horizontal"

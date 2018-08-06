@@ -1,4 +1,4 @@
-import { queryText } from "../services/text";
+import {queryText} from "../services/text";
 import _ from "lodash";
 
 export default {

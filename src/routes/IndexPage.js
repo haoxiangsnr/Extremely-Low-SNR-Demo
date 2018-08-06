@@ -1,6 +1,7 @@
-import { connect } from 'dva';
-import React, { Component } from 'react';
-import { Button, Row, Card,Col, Layout, notification  } from 'antd'
+import {connect} from 'dva';
+import React, {Component} from 'react';
+import {Button, Card, Col, Layout, notification, Row} from 'antd'
+import Footer from '../components/Footer'
 import Header from '../components/Header'
 import Banner from '../components/Banner'
 import Recorder from 'recorder-js'
@@ -95,7 +96,7 @@ class IndexPage extends Component {
                         cyclicTrans: true
                     })
                 })
-            }, 3000);
+            }, 1000);
         }
     };
 
@@ -206,15 +207,18 @@ class IndexPage extends Component {
                     <Row>
                         <Col span={14} offset={5}>
                             <Card title={'语音转换结果'}>
-                                {dataSource.map( (e, i) => {
-                                    return (
-                                        <span key={e.timeStamp}>{e.text}</span>
-                                    )
-                                })}
+                                <div className={styles.texts}>
+                                    {dataSource.map( (e, i) => {
+                                        return (
+                                            <span key={e.timeStamp}>{e.text}</span>
+                                        )
+                                    })}
+                                </div>
                             </Card>
                         </Col>
                     </Row>
                 </Layout>
+                <Footer />
            </div>);
     }
 }
