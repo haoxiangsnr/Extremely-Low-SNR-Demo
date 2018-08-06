@@ -1,7 +1,7 @@
 import React from 'react';
 import { Router, Route, Switch } from 'dva/router';
-import IndexPage from './routes/IndexPage';
-import MultiUser from './routes/MultiUser';
+import IndexPage from './routes/IndexPage/IndexPage';
+import MultiUser from './routes/MultiUser/MultiUser';
 
 function RouterConfig({ history }) {
   return (

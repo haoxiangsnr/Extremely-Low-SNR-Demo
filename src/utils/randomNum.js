@@ -2,7 +2,6 @@
 *   生成随机数
 *
 * */
-
 function randomNum (len) {
     let text = "";
     const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";

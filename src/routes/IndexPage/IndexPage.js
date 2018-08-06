@@ -1,14 +1,15 @@
 import {connect} from 'dva';
 import React, {Component} from 'react';
-import {Button, Card, Col, Layout, notification, Row} from 'antd'
-import Footer from '../components/Footer'
-import Header from '../components/Header'
-import Banner from '../components/Banner'
+import {Button, Card, Col, Affix, Icon, Layout, notification, Row} from 'antd'
+import Footer from '../../components/Footer/Footer'
+import Header from '../../components/Header/Header'
+import Banner from '../../components/Banner/Banner'
 import Recorder from 'recorder-js'
 import fetch from 'dva/fetch'
-import randomNum from '../utils/randomNum'
+import randomNum from '../../utils/randomNum'
 import styles from './IndexPage.module.less'
 import _ from 'lodash'
+import utf8 from 'utf8'
 /*CONST*/
 const POST_URL = `http://183.175.14.88:8080/post`;
 const USER_ID = randomNum(20);
@@ -20,7 +21,7 @@ class IndexPage extends Component {
         this.state = {
             record: false, // 打开或关闭录音机
             recording: false, // 是否正在录音，与recorder不同
-            cyclicTrans: false,
+            cyclicTrans: false, // cyclic transfer
             dataSource: []
         }
     }
@@ -45,7 +46,7 @@ class IndexPage extends Component {
             this.openNotificationWithIcon("success", "初始化成功！");
         }
         catch (e) {
-            this.openNotificationWithIcon("error", "未识别到浏览器录音设备，请检查相关设置！")
+            this.openNotificationWithIcon("error", "换最新版浏览器了吗？你的浏览器弱爆了，我无法挽救！")
         }
 
         this.recorder = new Recorder(this.audio_context);
@@ -58,21 +59,10 @@ class IndexPage extends Component {
         });
     };
 
-    stopCyclicTransTimer = () => {
-        this.setState({
-            cyclicTrans: true
-        });
-        if (this.CyclicTransTimer) {
-            clearInterval(this.CyclicTransTimer);
-        }
-    };
-
     handleRecord = () => {
         let { record, recording } = this.state;
 
         if (record && recording) {
-            this.stopCyclicTransTimer();
-            this.clearTimer();
             this.stopRecording(Date.now());
             this.setState({
                 recording: false,
@@ -86,25 +76,50 @@ class IndexPage extends Component {
                 record:true,
                 recording: true,
             });
-            this.CyclicTransTimer = setInterval( () => {
+
+            this.setTimer = () => {
+                this.setState({
+                    cyclicTrans: true
+                }, () => {
+                    this.recorder.start()
+                        .then( () => {
+                            this.timer = setTimeout(this.cyclicTransform, 2000);
+                        });
+                });
+            };
+
+            this.cyclicTransform = () => {
                 if (this.state.cyclicTrans) {
-                    this.stopRecording(Date.now());
-                }
-                this.recorder.start()
-                .then(() => {
                     this.setState({
-                        cyclicTrans: true
-                    })
-                })
-            }, 1000);
+                        cyclicTrans: false
+                    });
+                    console.log(1);
+                    clearTimeout(this.timer);
+                    this.stopRecording(Date.now())
+                        .then(() => {
+                            this.setTimer();
+                        })
+                }
+                else {
+                    this.setTimer();
+                }
+            };
+            this.cyclicTransform();
         }
     };
 
     stopRecording = (timeStamp) => {
-        this.recorder.stop()
-        .then(({blob}) => {
-            this.getAndSendBlobOfBase64(blob, timeStamp);
+        let pro = new Promise((resolve, reject) => {
+            clearTimeout(this.timer);
+            this.recorder.stop()
+                .then(({blob}) => {
+                    console.log("停止了，现在是:", Date.now());
+                    resolve();
+                    console.log(blob);
+                    this.getAndSendBlobOfBase64(blob, timeStamp);
+                });
         });
+        return pro;
     };
 
     parseJSON = (response) => {
@@ -138,32 +153,23 @@ class IndexPage extends Component {
                     content: e.target.result
                 })
             })
-                .then(this.checkStatus)
-                .then(this.parseJSON)
-                .then(data => {
-                    const {dataSource} = this.state;
-                    console.log('dataSource', dataSource);
-                    this.setState({
-                       dataSource: this.sortedByTimeStamp(dataSource.concat({
-                           timeStamp: data.timestamp,
-                           text: data.content
-                       }))
-                    });
-                })
-                .catch( err => ({ err }));
+            .then(this.checkStatus)
+            .then(this.parseJSON)
+            .then(data => {
+                const {dataSource} = this.state;
+                this.setState({
+                   dataSource: this.sortedByTimeStamp(dataSource.concat({
+                       timeStamp: data.timestamp,
+                       text: decodeURIComponent(escape(data.content))
+                   }))
+                });
+            })
+            .catch( err => ({ err }));
         });
         reader.readAsDataURL(blob);
     };
 
-    clearTimer = () => {
-        if (this.timer) {
-            clearInterval(this.timer);
-        }
-    };
-
     handleFinish = () => {
-        this.stopCyclicTransTimer();
-        this.clearTimer();
         this.stopRecording(Date.now());
         this.setState({
             recording: false,
@@ -190,18 +196,23 @@ class IndexPage extends Component {
             <div className="App">
                 <Header selectedKeys={['1']}/>
 
-                <Banner />
+                <Affix>
+                    <Layout.Header className={styles.controlBar}>
+                        <Row>
+                            <Col span={8} style={{textAlign: 'right'}}>
+                                <Button type='primary' onClick={this.handleRecord}>{signalWord}翻译</Button>
+                            </Col>
+                            <Col style={{ textAlign: "center", fontSize: 20}} span={8}>
+                                { recording ? <Icon type={"loading"} /> : ''}
+                            </Col>
+                            <Col span={8} style={{ textAlign: 'left'}}>
+                                <Button type="primary" onClick={this.handleFinish} disabled={!record}>结束翻译</Button>
+                            </Col>
+                        </Row>
+                    </Layout.Header>
+                </Affix>
 
-                <Layout className={styles.content}>
-                    <Row>
-                        <Col span={12} style={{padding: 20, textAlign: 'center'}}>
-                            <Button type='primary' onClick={this.handleRecord}>{signalWord}翻译</Button>
-                        </Col>
-                        <Col span={12} style={{padding: 20, textAlign: 'center'}}>
-                            <Button type="primary" onClick={this.handleFinish} disabled={!record}>结束翻译</Button>
-                        </Col>
-                    </Row>
-                </Layout>
+                <Banner />
 
                 <Layout className={styles.content}>
                     <Row>
