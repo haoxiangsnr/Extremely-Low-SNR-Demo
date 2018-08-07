@@ -4,16 +4,17 @@ import {Button, Card, Col, Affix, Icon, Layout, notification, Row} from 'antd'
 import Footer from '../../components/Footer/Footer'
 import Header from '../../components/Header/Header'
 import Banner from '../../components/Banner/Banner'
-import Recorder from 'recorder-js'
 import fetch from 'dva/fetch'
 import randomNum from '../../utils/randomNum'
 import styles from './IndexPage.module.less'
 import _ from 'lodash'
-import utf8 from 'utf8'
+import Recorder from 'opus-recorder'
 /*CONST*/
+
 const POST_URL = `http://183.175.14.88:8080/post`;
 const USER_ID = randomNum(20);
-
+const rec = new Recorder();
+console.log(rec);
 class IndexPage extends Component {
 
     constructor(props) {
@@ -38,25 +39,22 @@ class IndexPage extends Component {
     };
 
     componentDidMount = () => {
-        try {
-            window.AudioContext = window.AudioContext || window.webkitAudioContext;
-            navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
-            window.URL = window.URL || window.webkitURL;
-            this.audio_context = new AudioContext();
+        if (!Recorder.isRecordingSupported()) {
+            this.openNotificationWithIcon("error", "插耳机了吗？换最新版浏览器了吗？反正我无法挽救！")
+        }
+        else {
             this.openNotificationWithIcon("success", "初始化成功！");
         }
-        catch (e) {
-            this.openNotificationWithIcon("error", "换最新版浏览器了吗？你的浏览器弱爆了，我无法挽救！")
-        }
-
-        this.recorder = new Recorder(this.audio_context);
-        navigator.mediaDevices.getUserMedia({
-            audio: true
-        })
-        .then( stream => this.recorder.init(stream))
-        .catch( e => {
-                this.openNotificationWithIcon('error', `创建语音流失败，请联系开发人员，错误信息： ${e}`);
+        this.recorder = new Recorder({
+            numberOfChannels: 1
         });
+        console.log(this.recorder);
+        this.recorder.ondataavaliable =  (buffer) => {
+            console.log("ondataavalidable");
+            let dataBlob = new Blob([buffer], {type: "audio/wav"});
+            console.log(Date.now(), dataBlob);
+            this.getAndSendBlobOfBase64(dataBlob, Date.now());
+        }
     };
 
     handleRecord = () => {
@@ -76,48 +74,50 @@ class IndexPage extends Component {
                 record:true,
                 recording: true,
             });
+            this.recorder.start()
+            setTimeout(() => {
+                console.log(this.recorder);
+            },2000)
+            // this.setTimer = () => {
+            //     this.setState({
+            //         cyclicTrans: true
+            //     }, () => {
+            //         this.recorder.start()
+            //             .then( () => {
+            //                 // this.timer = setTimeout(this.cyclicTransform, 2000);
+            //                 console.log(this.recorder)
+            //             })
+            //             .catch(e => {
+            //                 console.log(e);
+            //             })
+            //     });
+            // };
 
-            this.setTimer = () => {
-                this.setState({
-                    cyclicTrans: true
-                }, () => {
-                    this.recorder.start()
-                        .then( () => {
-                            this.timer = setTimeout(this.cyclicTransform, 2000);
-                        });
-                });
-            };
-
-            this.cyclicTransform = () => {
-                if (this.state.cyclicTrans) {
-                    this.setState({
-                        cyclicTrans: false
-                    });
-                    console.log(1);
-                    clearTimeout(this.timer);
-                    this.stopRecording(Date.now())
-                        .then(() => {
-                            this.setTimer();
-                        })
-                }
-                else {
-                    this.setTimer();
-                }
-            };
-            this.cyclicTransform();
+            // this.cyclicTransform = () => {
+            //     if (this.state.cyclicTrans) {
+            //         this.setState({
+            //             cyclicTrans: false
+            //         });
+            //         clearTimeout(this.timer);
+            //         this.stopRecording(Date.now())
+            //             .then(() => {
+            //                 this.setTimer();
+            //             })
+            //     }
+            //     else {
+            //         this.setTimer();
+            //     }
+            // };
+            // this.cyclicTransform();
         }
     };
 
     stopRecording = (timeStamp) => {
         let pro = new Promise((resolve, reject) => {
             clearTimeout(this.timer);
-            this.recorder.stop()
-                .then(({blob}) => {
-                    console.log("停止了，现在是:", Date.now());
-                    resolve();
-                    console.log(blob);
-                    this.getAndSendBlobOfBase64(blob, timeStamp);
-                });
+            this.recorder.clearStream();
+            console.log(this.recorder);
+            resolve();
         });
         return pro;
     };

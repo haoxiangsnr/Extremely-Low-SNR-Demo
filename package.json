@@ -15,7 +15,8 @@
     "react-mic": "^11.0.0",
     "recorder-js": "^1.0.7",
       "lodash": "latest",
-      "utf8": "latest"
+      "utf8": "latest",
+      "opus-recorder": "latest"
   },
   "devDependencies": {
     "babel-plugin-dva-hmr": "^0.3.2",
