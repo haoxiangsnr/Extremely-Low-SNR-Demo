@@ -1,6 +1,6 @@
 import {connect} from 'dva';
 import React, {Component} from 'react';
-import {Button, Card, Col, Affix, Icon, Layout, notification, Row} from 'antd'
+import {Affix, Button, Card, Col, Icon, Layout, notification, Row} from 'antd'
 import Footer from '../../components/Footer/Footer'
 import Header from '../../components/Header/Header'
 import Banner from '../../components/Banner/Banner'
@@ -12,9 +12,10 @@ import Recorder from 'opus-recorder'
 /*CONST*/
 
 const POST_URL = `http://183.175.14.88:8080/post`;
+// const POST_URL = `http://202.207.12.156:8000/asr`;
+// const POST_URL = `http://localhost:5000/`;
 const USER_ID = randomNum(20);
-const rec = new Recorder();
-console.log(rec);
+
 class IndexPage extends Component {
 
     constructor(props) {
@@ -39,21 +40,54 @@ class IndexPage extends Component {
     };
 
     componentDidMount = () => {
-        if (!Recorder.isRecordingSupported()) {
-            this.openNotificationWithIcon("error", "插耳机了吗？换最新版浏览器了吗？反正我无法挽救！")
-        }
-        else {
+        if (Recorder.isRecordingSupported()) {
             this.openNotificationWithIcon("success", "初始化成功！");
         }
+        else {
+            this.openNotificationWithIcon("error", "插耳机了吗？换最新版浏览器了吗？反正我无法挽救！")
+        }
         this.recorder = new Recorder({
-            numberOfChannels: 1
+            numberOfChannels: 1,
+            encoderPath: 'waveWorker.min.js',
+            encoderSampleRate: 16000,
+            originalSampleRateOverride: 16000
         });
-        console.log(this.recorder);
-        this.recorder.ondataavaliable =  (buffer) => {
-            console.log("ondataavalidable");
+
+        this.recorder.ondataavailable = (buffer) => {
             let dataBlob = new Blob([buffer], {type: "audio/wav"});
-            console.log(Date.now(), dataBlob);
+            console.log("结束录音，并准备编码数据并发送", Date.now(), dataBlob);
             this.getAndSendBlobOfBase64(dataBlob, Date.now());
+        }
+    };
+
+    setTimer = () => {
+        this.setState({
+            cyclicTrans: true
+        }, () => {
+            this.recorder.start()
+                .then( () => {
+                    console.log("开始录音");
+                    this.timer = setTimeout(this.cyclicTransform, 3000);
+                })
+                .catch(e => {
+                    console.log("请联系程序员", e);
+                })
+        });
+    };
+
+    cyclicTransform = () => {
+        if (this.state.cyclicTrans) {
+            this.setState({
+                cyclicTrans: false
+            });
+            clearTimeout(this.timer);
+            this.stopRecording()
+                .then(() => {
+                    this.setTimer();
+                })
+        }
+        else {
+            this.setTimer();
         }
     };
 
@@ -61,7 +95,7 @@ class IndexPage extends Component {
         let { record, recording } = this.state;
 
         if (record && recording) {
-            this.stopRecording(Date.now());
+            this.stopRecording();
             this.setState({
                 recording: false,
                 record: true,
@@ -69,54 +103,18 @@ class IndexPage extends Component {
         }
 
         if (!recording) {
-            // 修改为100ms发一次
             this.setState({
                 record:true,
                 recording: true,
             });
-            this.recorder.start()
-            setTimeout(() => {
-                console.log(this.recorder);
-            },2000)
-            // this.setTimer = () => {
-            //     this.setState({
-            //         cyclicTrans: true
-            //     }, () => {
-            //         this.recorder.start()
-            //             .then( () => {
-            //                 // this.timer = setTimeout(this.cyclicTransform, 2000);
-            //                 console.log(this.recorder)
-            //             })
-            //             .catch(e => {
-            //                 console.log(e);
-            //             })
-            //     });
-            // };
-
-            // this.cyclicTransform = () => {
-            //     if (this.state.cyclicTrans) {
-            //         this.setState({
-            //             cyclicTrans: false
-            //         });
-            //         clearTimeout(this.timer);
-            //         this.stopRecording(Date.now())
-            //             .then(() => {
-            //                 this.setTimer();
-            //             })
-            //     }
-            //     else {
-            //         this.setTimer();
-            //     }
-            // };
-            // this.cyclicTransform();
+            this.cyclicTransform();
         }
     };
 
-    stopRecording = (timeStamp) => {
-        let pro = new Promise((resolve, reject) => {
+    stopRecording = () => {
+        let pro = new Promise((resolve) => {
             clearTimeout(this.timer);
-            this.recorder.clearStream();
-            console.log(this.recorder);
+            this.recorder.stop();
             resolve();
         });
         return pro;
@@ -140,33 +138,30 @@ class IndexPage extends Component {
     };
 
     getAndSendBlobOfBase64 = (blob, timeStamp) => {
-        let reader = new FileReader();
-        reader.addEventListener("load", (e) => {
-            fetch(POST_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    userid: USER_ID,
-                    timestamp: this.timeFormatting(timeStamp),
-                    content: e.target.result
-                })
-            })
+        let formData = new FormData();
+        formData.append('userid', USER_ID);
+        formData.append('timestamp', this.timeFormatting(timeStamp));
+        formData.append('content', blob);
+        // formData.append('wave', blob);
+        // formData.append('fs', 48000);
+        fetch(POST_URL, {
+            method: 'POST',
+            body: formData
+        })
             .then(this.checkStatus)
             .then(this.parseJSON)
             .then(data => {
                 const {dataSource} = this.state;
                 this.setState({
-                   dataSource: this.sortedByTimeStamp(dataSource.concat({
-                       timeStamp: data.timestamp,
-                       text: decodeURIComponent(escape(data.content))
-                   }))
+                    dataSource: this.sortedByTimeStamp(dataSource.concat({
+                        timeStamp: data.timestamp,
+                        text: data.content
+                    }))
                 });
             })
-            .catch( err => ({ err }));
-        });
-        reader.readAsDataURL(blob);
+            .catch( err => {
+                console.log(err)
+            });
     };
 
     handleFinish = () => {
@@ -196,28 +191,32 @@ class IndexPage extends Component {
             <div className="App">
                 <Header selectedKeys={['1']}/>
 
-                <Affix>
-                    <Layout.Header className={styles.controlBar}>
-                        <Row>
-                            <Col span={8} style={{textAlign: 'right'}}>
-                                <Button type='primary' onClick={this.handleRecord}>{signalWord}翻译</Button>
-                            </Col>
-                            <Col style={{ textAlign: "center", fontSize: 20}} span={8}>
-                                { recording ? <Icon type={"loading"} /> : ''}
-                            </Col>
-                            <Col span={8} style={{ textAlign: 'left'}}>
-                                <Button type="primary" onClick={this.handleFinish} disabled={!record}>结束翻译</Button>
-                            </Col>
-                        </Row>
-                    </Layout.Header>
-                </Affix>
+                <Layout.Header className={styles.controlBar}>
+                    <Row>
+                        <Col span={8} style={{textAlign: 'right'}}>
+                            <Button type='primary' onClick={this.handleRecord}>{signalWord}翻译</Button>
+                        </Col>
+                        <Col offset={8} span={8} style={{ textAlign: 'left'}}>
+                            <Button type="primary" onClick={this.handleFinish} disabled={!record}>结束翻译</Button>
+                        </Col>
+                    </Row>
+                </Layout.Header>
 
                 <Banner />
 
                 <Layout className={styles.content}>
                     <Row>
                         <Col span={14} offset={5}>
-                            <Card title={'语音转换结果'}>
+                            <Card title={
+                                    <Row>
+                                        <Col span={12} style={{textAlign: 'left'}}>
+                                            语音转换结果
+                                        </Col>
+                                        <Col span={12} style={{textAlign: 'right'}}>
+                                            { recording ? <Icon type={"loading"} style={{color: '#40a9ff'}} /> : ''}
+                                        </Col>
+                                    </Row>
+                            } bodyStyle={{overflowY: 'scroll', height: 400}}>
                                 <div className={styles.texts}>
                                     {dataSource.map( (e, i) => {
                                         return (
@@ -229,7 +228,6 @@ class IndexPage extends Component {
                         </Col>
                     </Row>
                 </Layout>
-                <Footer />
            </div>);
     }
 }
