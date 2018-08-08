@@ -69,7 +69,7 @@ class IndexPage extends Component {
                     this.timer = setTimeout(this.cyclicTransform, 3000);
                 })
                 .catch(e => {
-                    console.log("请联系程序员", e);
+                    this.openNotificationWithIcon("网络出现错误了，请联系程序员接锅", e);
                 })
         });
     };
