@@ -10,7 +10,7 @@ import _ from 'lodash'
 import Recorder from '../../utils/recorder'
 /*CONST*/
 
-const POST_URL = `http://183.175.14.88:8080/post`;
+const POST_URL = `https://haoxiang.tech/post`;
 // const POST_URL = `http://202.207.12.156:8000/asr`;
 // const POST_URL = `http://localhost:5000/`;
 const USER_ID = randomNum(20);
