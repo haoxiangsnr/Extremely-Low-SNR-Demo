@@ -7,10 +7,10 @@ import fetch from 'dva/fetch'
 import randomNum from '../../utils/randomNum'
 import styles from './IndexPage.module.less'
 import _ from 'lodash'
-import Recorder from 'opus-recorder'
+import Recorder from '../../utils/recorder'
 /*CONST*/
 
-const POST_URL = `http://183.175.14.88:8080/post`;
+const POST_URL = `https://183.175.14.88:8080/post`;
 // const POST_URL = `http://202.207.12.156:8000/asr`;
 // const POST_URL = `http://localhost:5000/`;
 const USER_ID = randomNum(20);
@@ -39,23 +39,38 @@ class IndexPage extends Component {
     };
 
     componentDidMount = () => {
-        if (Recorder.isRecordingSupported()) {
-            this.openNotificationWithIcon("success", "初始化成功！");
+        this.openNotificationWithIcon("success", "初始化成功，当浏览器提示需要使用麦克风时请点击“确定”。");
+
+        try {
+            window.AudioContext = window.AudioContext || window.webkitAudioContext;
+            navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
+            window.URL = window.URL || window.webkitURL;
         }
-        else {
-            this.openNotificationWithIcon("error", "插耳机了吗？换最新版浏览器了吗？反正我无法挽救！")
+        catch (e) {
+            this.openNotificationWithIcon("error", "浏览器太旧了，请使用推荐浏览器！", e.toString());
         }
+
         this.recorder = new Recorder({
             numberOfChannels: 1,
             encoderPath: 'waveWorker.min.js',
-            encoderSampleRate: 16000,
-            originalSampleRateOverride: 16000
         });
 
         this.recorder.ondataavailable = (buffer) => {
             let dataBlob = new Blob([buffer], {type: "audio/wav"});
-            console.log("结束录音，并准备编码数据并发送", Date.now(), dataBlob);
-            this.getAndSendBlobOfBase64(dataBlob, Date.now());
+            // console.info(`结束并开始上传录音标识-----${new Date().toLocaleString()}`);
+            this.getAndSendBlob(dataBlob, Date.now());
+        }
+    };
+
+    handleRecordError = (e) => {
+        if (e.name === "NotAllowedError") {
+            this.openNotificationWithIcon("error", "浏览器未被允许使用麦克风，请修改浏览器设置并重试！", e.toString());
+        }
+        else if (e.name === "NotFoundError") {
+            this.openNotificationWithIcon("error", "浏览器未发现麦克风，请插入麦克风并允许浏览器使用麦克风功能！", e.toString());
+        }
+        else {
+            this.openNotificationWithIcon("error", "网络出现错误了，如果其他网页你都可以正常访问，请尽快联系程序员接锅！", e.toString());
         }
     };
 
@@ -65,11 +80,11 @@ class IndexPage extends Component {
         }, () => {
             this.recorder.start()
                 .then( () => {
-                    console.log("开始录音");
+                    // console.info(`开始录音标识-----${new Date().toLocaleString()}`);
                     this.timer = setTimeout(this.cyclicTransform, 3000);
                 })
                 .catch(e => {
-                    this.openNotificationWithIcon("网络出现错误了，请联系程序员接锅", e);
+                    this.handleRecordError(e)
                 })
         });
     };
@@ -136,13 +151,16 @@ class IndexPage extends Component {
         return _.sortBy(objList, 'timeStamp');
     };
 
-    getAndSendBlobOfBase64 = (blob, timeStamp) => {
+    getAndSendBlob = (blob, timeStamp) => {
         let formData = new FormData();
         formData.append('userid', USER_ID);
         formData.append('timestamp', this.timeFormatting(timeStamp));
         formData.append('content', blob);
-        // formData.append('wave', blob);
-        // formData.append('fs', 48000);
+        // let reader = new FileReader();
+        // reader.addEventListener("load",(e) => {
+        //     console.log(e.target.result);
+        // });
+        // reader.readAsDataURL(blob);
         fetch(POST_URL, {
             method: 'POST',
             body: formData

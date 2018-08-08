@@ -2,10 +2,15 @@
 <project version="4">
   <component name="BookmarkManager">
     <bookmark url="file://$PROJECT_DIR$/src/routes/IndexPage/IndexPage.js" line="40" />
-    <bookmark url="file://$PROJECT_DIR$/src/routes/IndexPage/IndexPage.js" line="104" />
+    <bookmark url="file://$PROJECT_DIR$/src/routes/IndexPage/IndexPage.js" line="119" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3dbfd086-e4f8-4d7d-82f2-b76640082317" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/docs/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/waveWorker.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/waveWorker.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Banner/Banner.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Banner/Banner.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/routes/IndexPage/IndexPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/IndexPage/IndexPage.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -60,7 +65,7 @@
     <session id="-1556771056">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="3" />
+          <entry key="project.closed" value="4" />
           <entry key="project.open.time.10" value="1" />
           <entry key="project.open.time.20" value="1" />
           <entry key="project.open.time.25" value="1" />
@@ -72,8 +77,8 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="html" value="46" />
-          <entry key="js" value="15886" />
-          <entry key="json" value="44" />
+          <entry key="js" value="18133" />
+          <entry key="json" value="257" />
           <entry key="less" value="151" />
           <entry key="py" value="37" />
           <entry key="webpackrc" value="68" />
@@ -82,8 +87,8 @@
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="HTML" value="46" />
-          <entry key="JSON" value="44" />
-          <entry key="JavaScript" value="15886" />
+          <entry key="JSON" value="257" />
+          <entry key="JavaScript" value="18133" />
           <entry key="Less" value="151" />
           <entry key="PLAIN_TEXT" value="105" />
         </counts>
@@ -97,9 +102,9 @@
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="css" value="1" />
-          <entry key="html" value="6" />
-          <entry key="js" value="39" />
-          <entry key="json" value="6" />
+          <entry key="html" value="7" />
+          <entry key="js" value="49" />
+          <entry key="json" value="7" />
           <entry key="less" value="8" />
           <entry key="py" value="2" />
           <entry key="test" value="1" />
@@ -111,9 +116,9 @@
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="CSS" value="1" />
-          <entry key="HTML" value="6" />
-          <entry key="JSON" value="6" />
-          <entry key="JavaScript" value="39" />
+          <entry key="HTML" value="7" />
+          <entry key="JSON" value="7" />
+          <entry key="JavaScript" value="49" />
           <entry key="Less" value="8" />
           <entry key="PLAIN_TEXT" value="7" />
           <entry key="TypeScript" value="3" />
@@ -142,28 +147,10 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/services/text.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="156">
-              <caret line="6" column="43" selection-start-line="6" selection-start-column="43" selection-end-line="6" selection-end-column="43" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/utils/request.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="520">
-              <caret line="20" column="38" selection-start-line="20" selection-start-column="38" selection-end-line="20" selection-end-column="38" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/routes/IndexPage/IndexPage.module.less">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="182">
-              <caret line="7" column="20" selection-start-line="7" selection-start-column="20" selection-end-line="7" selection-end-column="20" />
+            <state relative-caret-position="260">
+              <caret line="10" column="8" selection-start-line="10" selection-start-column="8" selection-end-line="10" selection-end-column="8" />
             </state>
           </provider>
         </entry>
@@ -171,8 +158,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/routes/IndexPage/IndexPage.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="520">
-              <caret line="71" column="73" lean-forward="true" selection-start-line="71" selection-start-column="73" selection-end-line="71" selection-end-column="73" />
+            <state relative-caret-position="286">
+              <caret line="85" column="28" selection-start-line="85" selection-start-column="28" selection-end-line="85" selection-end-column="28" />
               <folding>
                 <element signature="e#0#28#0" expanded="true" />
               </folding>
@@ -181,10 +168,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.webpackrc">
+        <entry file="file://$PROJECT_DIR$/.roadhogrc.mock.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="104">
-              <caret line="4" column="27" lean-forward="true" selection-start-line="4" selection-start-column="27" selection-end-line="4" selection-end-column="27" />
+            <state relative-caret-position="78">
+              <caret line="3" selection-start-line="3" selection-end-line="3" />
             </state>
           </provider>
         </entry>
@@ -192,20 +179,47 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/package.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="156">
-              <caret line="6" column="30" selection-start-line="6" selection-start-column="30" selection-end-line="6" selection-end-column="30" />
+            <state relative-caret-position="208">
+              <caret line="8" column="3" selection-start-line="8" selection-start-column="3" selection-end-line="8" selection-end-column="3" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/utils/randomNum.js">
+        <entry file="file://$PROJECT_DIR$/src/components/Banner/Banner.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="286">
-              <caret line="14" column="24" selection-start-line="14" selection-start-column="24" selection-end-line="14" selection-end-column="24" />
+            <state relative-caret-position="260">
+              <caret line="10" column="12" selection-start-line="10" selection-start-column="12" selection-end-line="10" selection-end-column="12" />
               <folding>
-                <element signature="n#!!doc" expanded="true" />
+                <element signature="e#0#37#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/utils/recorder.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2808">
+              <caret line="108" column="52" selection-start-line="108" selection-start-column="52" selection-end-line="108" selection-end-column="52" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/waveWorker.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1057">
+              <caret line="65" column="83" selection-start-line="65" selection-start-column="83" selection-end-line="65" selection-end-column="83" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="338">
+              <caret line="13" column="6" selection-start-line="13" selection-start-column="6" selection-end-line="13" selection-end-column="6" />
             </state>
           </provider>
         </entry>
@@ -249,7 +263,6 @@
         <option value="$PROJECT_DIR$/src/index.js" />
         <option value="$PROJECT_DIR$/src/routes/IndexPage/IndexPage.module.less" />
         <option value="$PROJECT_DIR$/src/routes/IndexPage/test" />
-        <option value="$PROJECT_DIR$/src/utils/recorder.js" />
         <option value="$PROJECT_DIR$/public/test.html" />
         <option value="$PROJECT_DIR$/public/index.html" />
         <option value="$PROJECT_DIR$/src/components/Footer/Footer.js" />
@@ -257,6 +270,10 @@
         <option value="$USER_HOME$/Desktop/语音项目临时目录/test.py" />
         <option value="$PROJECT_DIR$/node_modules/opus-recorder/dist/recorder.min.js" />
         <option value="$PROJECT_DIR$/.webpackrc" />
+        <option value="$PROJECT_DIR$/public/waveWorker.min.js" />
+        <option value="$PROJECT_DIR$/src/utils/recorder.js" />
+        <option value="$PROJECT_DIR$/public/waveWorker.js" />
+        <option value="$PROJECT_DIR$/src/components/Banner/Banner.js" />
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/src/routes/IndexPage/IndexPage.js" />
       </list>
@@ -279,10 +296,10 @@
     </packageJsonPaths>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="54" />
-    <option name="y" value="-8" />
-    <option name="width" value="1874" />
-    <option name="height" value="1096" />
+    <option name="x" value="144" />
+    <option name="y" value="133" />
+    <option name="width" value="1869" />
+    <option name="height" value="1085" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -302,26 +319,12 @@
             <path>
               <item name="dva-audio" type="b2602c69:ProjectViewProjectNode" />
               <item name="dva-audio" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="docs" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="dva-audio" type="b2602c69:ProjectViewProjectNode" />
               <item name="dva-audio" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="routes" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="dva-audio" type="b2602c69:ProjectViewProjectNode" />
-              <item name="dva-audio" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="routes" type="462c0819:PsiDirectoryNode" />
-              <item name="IndexPage" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="dva-audio" type="b2602c69:ProjectViewProjectNode" />
-              <item name="dva-audio" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="utils" type="462c0819:PsiDirectoryNode" />
+              <item name="public" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -346,15 +349,15 @@
     <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\WebStorm 2018.2\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\hao\center\code\dva-audio\public" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\hao\center\code\dva-audio" />
       <recent name="C:\Users\hao\center\code\dva-audio\public" />
       <recent name="C:\Users\hao\center\code\dva-audio\src\utils\recorder" />
       <recent name="C:\Users\hao\center\code\dva-audio\src\assets" />
       <recent name="C:\Users\hao\center\code\dva-audio\src\routes\MultiUser" />
-      <recent name="C:\Users\hao\center\code\dva-audio\src\routes\IndexPage" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\hao\center\code\dva-audio\public" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -380,6 +383,16 @@
       <envs />
       <method v="2" />
     </configuration>
+    <configuration name="server" type="js.build_tools.npm" factoryName="npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="server" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
     <configuration name="start" type="js.build_tools.npm" factoryName="npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
@@ -393,11 +406,13 @@
     <list>
       <item itemvalue="npm.build" />
       <item itemvalue="npm.start" />
+      <item itemvalue="npm.server" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="npm.start" />
+        <item itemvalue="npm.server" />
         <item itemvalue="npm.build" />
+        <item itemvalue="npm.start" />
       </list>
     </recent_temporary>
   </component>
@@ -417,12 +432,12 @@
       <workItem from="1533514964473" duration="105000" />
       <workItem from="1533523609641" duration="6333000" />
       <workItem from="1533624565859" duration="18894000" />
-      <workItem from="1533687427350" duration="4259000" />
+      <workItem from="1533687427350" duration="19608000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="87393000" />
+    <option name="totallyTimeSpent" value="102742000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -434,24 +449,23 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="54" y="-8" width="1874" height="1096" extended-state="6" />
-    <editor active="true" />
+    <frame x="55" y="-8" width="1873" height="1096" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.5223404" visible="true" weight="0.18941048" />
-      <window_info id="npm" order="1" sideWeight="0.47765958" side_tool="true" weight="0.18941048" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.5595745" visible="true" weight="0.18951392" />
+      <window_info id="npm" order="1" sideWeight="0.44042554" side_tool="true" visible="true" weight="0.18951392" />
       <window_info id="Structure" order="2" sideWeight="0.47765958" side_tool="true" weight="0.18941048" />
       <window_info id="Favorites" order="3" sideWeight="0.52421653" side_tool="true" weight="0.1898527" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32953367" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.1861702" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3287234" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.30319148" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.329718" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="8" weight="0.32953367" />
+      <window_info anchor="bottom" id="Version Control" order="8" weight="0.3287234" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50052744" side_tool="true" weight="0.20021646" />
-      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.4994726" visible="true" weight="0.25851065" />
+      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.4994726" weight="0.25851065" />
       <window_info anchor="bottom" id="TypeScript" order="11" weight="0.32953367" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -465,10 +479,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/models/products.js" />
-    <entry file="file://$PROJECT_DIR$/mock/.gitkeep">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external/lib.dom.d.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="300">
@@ -531,13 +541,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/Banner/Banner.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="10" column="38" selection-start-line="10" selection-start-column="38" selection-end-line="10" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/Mic.js" />
     <entry file="file://$PROJECT_DIR$/src/components/ProductList.js" />
     <entry file="file://$PROJECT_DIR$/src/index.css" />
@@ -563,7 +566,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/utils/recorder.js" />
     <entry file="file://$PROJECT_DIR$/public/recorder/recorder.js" />
     <entry file="file://$PROJECT_DIR$/public/test.html" />
     <entry file="file://$PROJECT_DIR$/src/models/timeStamp.js">
@@ -587,9 +589,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/encoderWorker.min.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/opus-recorder/dist/encoderWorker.min.js">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -604,20 +603,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="26">
           <caret line="1" selection-start-line="1" selection-end-line="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="312">
-          <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/decoderWorker.min.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="104">
-          <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
         </state>
       </provider>
     </entry>
@@ -663,13 +648,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.roadhogrc.mock.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="78">
-          <caret line="3" selection-start-line="3" selection-end-line="3" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/services/text.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="156">
@@ -681,23 +659,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="520">
           <caret line="20" column="38" selection-start-line="20" selection-start-column="38" selection-end-line="20" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/routes/IndexPage/IndexPage.module.less">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="182">
-          <caret line="7" column="20" selection-start-line="7" selection-start-column="20" selection-end-line="7" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/utils/randomNum.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="14" column="24" selection-start-line="14" selection-start-column="24" selection-end-line="14" selection-end-column="24" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -715,24 +676,103 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
+    <entry file="file://$PROJECT_DIR$/public/waveWorker.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="156">
-          <caret line="6" column="30" selection-start-line="6" selection-start-column="30" selection-end-line="6" selection-end-column="30" />
+        <state relative-caret-position="157">
+          <caret column="502129" lean-forward="true" selection-start-column="502129" selection-end-column="502129" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/decoderWorker.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="104">
+          <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/routes/IndexPage/IndexPage.module.less">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="260">
+          <caret line="10" column="8" selection-start-line="10" selection-start-column="8" selection-end-line="10" selection-end-column="8" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/.webpackrc">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="104">
-          <caret line="4" column="27" lean-forward="true" selection-start-line="4" selection-start-column="27" selection-end-line="4" selection-end-column="27" />
+          <caret line="4" column="27" selection-start-line="4" selection-start-column="27" selection-end-line="4" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/utils/randomNum.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="312">
+          <caret line="12" column="1" lean-forward="true" selection-start-line="12" selection-start-column="1" selection-end-line="12" selection-end-column="1" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/encoderWorker.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="104">
+          <caret line="4" selection-start-line="4" selection-end-line="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/waveWorker.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1057">
+          <caret line="65" column="83" selection-start-line="65" selection-start-column="83" selection-end-line="65" selection-end-column="83" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="338">
+          <caret line="13" column="6" selection-start-line="13" selection-start-column="6" selection-end-line="13" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="208">
+          <caret line="8" column="3" selection-start-line="8" selection-start-column="3" selection-end-line="8" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/Banner/Banner.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="260">
+          <caret line="10" column="12" selection-start-line="10" selection-start-column="12" selection-end-line="10" selection-end-column="12" />
+          <folding>
+            <element signature="e#0#37#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/utils/recorder.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2808">
+          <caret line="108" column="52" selection-start-line="108" selection-start-column="52" selection-end-line="108" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.roadhogrc.mock.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="78">
+          <caret line="3" selection-start-line="3" selection-end-line="3" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/routes/IndexPage/IndexPage.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="520">
-          <caret line="71" column="73" lean-forward="true" selection-start-line="71" selection-start-column="73" selection-end-line="71" selection-end-column="73" />
+        <state relative-caret-position="286">
+          <caret line="85" column="28" selection-start-line="85" selection-start-column="28" selection-end-line="85" selection-end-column="28" />
           <folding>
             <element signature="e#0#28#0" expanded="true" />
           </folding>

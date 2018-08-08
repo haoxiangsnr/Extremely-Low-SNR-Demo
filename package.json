@@ -4,7 +4,8 @@
     "start": "roadhog server",
     "build": "roadhog build",
     "lint": "eslint --ext .js src test",
-    "precommit": "npm run lint"
+    "precommit": "npm run lint",
+      "server": "http-server ./docs -p 1000 -S -C cert.pem -0"
   },
   "dependencies": {
     "antd": "^3.7.3",
@@ -12,7 +13,6 @@
     "dva": "^2.3.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "react-mic": "^11.0.0",
     "recorder-js": "^1.0.7",
       "lodash": "latest",
       "utf8": "latest",
