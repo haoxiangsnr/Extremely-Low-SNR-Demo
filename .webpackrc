@@ -2,5 +2,5 @@
     "extraBabelPlugins": [
         ["import", { "libraryName": "antd", "libraryDirectory": "es", "style": "css" }]
     ],
-    "outputPath": "./doc/"
+    "outputPath": "./docs/"
 }

@@ -1,7 +1,6 @@
 import {connect} from 'dva';
 import React, {Component} from 'react';
-import {Affix, Button, Card, Col, Icon, Layout, notification, Row} from 'antd'
-import Footer from '../../components/Footer/Footer'
+import {Button, Card, Col, Icon, Layout, notification, Row} from 'antd'
 import Header from '../../components/Header/Header'
 import Banner from '../../components/Banner/Banner'
 import fetch from 'dva/fetch'
