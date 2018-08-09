@@ -4,8 +4,8 @@
     "start": "roadhog server",
     "build": "roadhog build",
     "lint": "eslint --ext .js src test",
-    "precommit": "npm run lint",
-      "server": "http-server ./docs -p 1000 -S -C cert.pem -0"
+      "server": "http-server ./docs -p 1000 -S -C cert.pem -0",
+      "deploy": "bash ./deploy.sh"
   },
   "dependencies": {
     "antd": "^3.7.3",
