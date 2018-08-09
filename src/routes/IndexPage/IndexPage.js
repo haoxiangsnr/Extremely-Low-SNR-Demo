@@ -8,6 +8,7 @@ import randomNum from '../../utils/randomNum'
 import styles from './IndexPage.module.less'
 import _ from 'lodash'
 import Recorder from '../../utils/recorder'
+import resampler from '../../utils/resampler'
 /*CONST*/
 
 const POST_URL = `https://haoxiang.tech/post`;
@@ -151,16 +152,8 @@ class IndexPage extends Component {
         return _.sortBy(objList, 'timeStamp');
     };
 
-    getAndSendBlob = (blob, timeStamp) => {
-        let formData = new FormData();
-        formData.append('userid', USER_ID);
-        formData.append('timestamp', this.timeFormatting(timeStamp));
-        formData.append('content', blob);
-        // let reader = new FileReader();
-        // reader.addEventListener("load",(e) => {
-        //     console.log(e.target.result);
-        // });
-        // reader.readAsDataURL(blob);
+    sendBlob = (formData) => {
+
         fetch(POST_URL, {
             method: 'POST',
             body: formData
@@ -179,6 +172,34 @@ class IndexPage extends Component {
             .catch( err => {
                 console.log(err)
             });
+    };
+
+    getAndSendBlob = (blob, timeStamp) => {
+        let arrayBufferReader = new FileReader();
+        arrayBufferReader.onload = (e) => {
+            console.log(e.target.result);
+        }
+        arrayBufferReader.readAsArrayBuffer(blob);
+
+        let file = new File([blob], `${timeStamp}.wav`);
+
+        resampler(file, 16000, e => {
+            e.getFile(e => {
+                let formData = new FormData();
+                formData.append('userid', USER_ID);
+                formData.append('timestamp', this.timeFormatting(timeStamp));
+                formData.append('content', e);
+                this.sendBlob(formData);
+                /*
+                * 打印base64录音编码处
+                * */
+                // let reader = new FileReader();
+                // reader.addEventListener("load", (e) => {
+                //     console.log(e.target.result);
+                // });
+                // reader.readAsDataURL(e);
+            })
+        })
     };
 
     handleFinish = () => {
