@@ -34,7 +34,7 @@ function resampler(input, targetSampleRate, oncomplete) {
     }
 
     if (inputType === '[object String]' || inputType === '[object File]') {
-        console.log('Loading/decoding input', input);
+        // console.log('Loading/decoding input', input);
         wal.load(input, {
             onload: function(err, audioBuffer) {
                 if (err) {
@@ -73,7 +73,7 @@ function resampler(input, targetSampleRate, oncomplete) {
 
         offlineContext_.oncomplete = function(event) {
             var resampeledBuffer = event.renderedBuffer;
-            console.log('Done Rendering');
+            // console.log('Done Rendering');
             if (typeof oncomplete === 'function') {
                 oncomplete({
                     getAudioBuffer: function() {
@@ -98,7 +98,7 @@ function resampler(input, targetSampleRate, oncomplete) {
             }
         };
 
-        console.log('Starting Offline Rendering');
+        // console.log('Starting Offline Rendering');
         bufferSource_.connect(offlineContext_.destination);
         bufferSource_.start(0);
         offlineContext_.startRendering();

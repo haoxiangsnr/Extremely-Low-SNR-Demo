@@ -175,11 +175,11 @@ class IndexPage extends Component {
     };
 
     getAndSendBlob = (blob, timeStamp) => {
-        let arrayBufferReader = new FileReader();
+/*        let arrayBufferReader = new FileReader();
         arrayBufferReader.onload = (e) => {
             console.log(e.target.result);
         }
-        arrayBufferReader.readAsArrayBuffer(blob);
+        arrayBufferReader.readAsArrayBuffer(blob);*/
 
         let file = new File([blob], `${timeStamp}.wav`);
 
