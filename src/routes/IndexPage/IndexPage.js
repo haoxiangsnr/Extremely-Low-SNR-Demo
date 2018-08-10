@@ -20,7 +20,7 @@ import hark from 'hark';    // VAD检测
 import randomNum from '../../utils/randomNum'; // 随机数
 import styles from './IndexPage.module.less';
 import _ from 'lodash';
-import resampler from '../../utils/resampler'; // 降采样
+import resampler from 'audio-resampler'; // 降采样
 
 const POST_URL = `https://haoxiang.tech/post`;
 const USER_ID = randomNum(20);
