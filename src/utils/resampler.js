@@ -79,7 +79,7 @@ function resampler(input, targetSampleRate, oncomplete) {
                     getAudioBuffer: function() {
                         return resampeledBuffer;
                     },
-                    getFile: function(fileCallback) {
+                    getBlob: function(fileCallback) {
                         var audioData = {
                             sampleRate: resampeledBuffer.sampleRate,
                             channelData: []
