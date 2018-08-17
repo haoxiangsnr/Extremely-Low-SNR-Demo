@@ -13,6 +13,7 @@
     "dva": "^2.3.1",
     "hark": "latest",
     "lodash": "latest",
+    "mathjs": "^5.1.0",
     "msr": "latest",
     "react": "^16.2.0",
     "react-copy-to-clipboard": "^5.0.1",
