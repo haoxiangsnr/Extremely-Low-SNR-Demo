@@ -15,11 +15,14 @@ import Header from '../../components/Header/Header';
 import Banner from '../../components/Banner/Banner';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import fetch from 'dva/fetch';
+import hark from 'hark'
 import randomNum from '../../utils/randomNum'; // 随机数
 import styles from './IndexPage.module.less';
 import _ from 'lodash';
+import Recorder from '../../utils/recorder';
 
 const POST_URL = `https://haoxiang.tech/post`;
+const UPLOAD_URL = `http://localhost:5000/upload`;
 const USER_ID = randomNum(20);
 
 class IndexPage extends Component {
@@ -83,171 +86,6 @@ class IndexPage extends Component {
         });
     };
 
-    writeString = (view, offset, string) => {
-        for (let i = 0; i < string.length; i++) {
-            view.setUint8(offset + i, string.charCodeAt(i));
-        }
-    };
-
-    floatTo16BitPCM = (output, offset, input) => {
-        for (let i = 0; i < input.length; i++, offset += 2) {
-            let s = Math.max(-1, Math.min(1, input[i]));
-            output.setInt16(offset, s < 0 ? s * 0x8000 : s * 0x7FFF, true);
-        }
-    };
-
-    encodeWAV = (samples) => {
-        let buffer = new ArrayBuffer(44 + samples.length * 2);
-        let view = new DataView(buffer);
-
-        /* RIFF identifier */
-        this.writeString(view, 0, 'RIFF');
-        /* RIFF chunk length */
-        view.setUint32(4, 36 + samples.length * 2, true);
-        /* RIFF type */
-        this.writeString(view, 8, 'WAVE');
-        /* format chunk identifier */
-        this.writeString(view, 12, 'fmt ');
-        /* format chunk length */
-        view.setUint32(16, 16, true);
-        /* sample format (raw) */
-        view.setUint16(20, 1, true);
-        /* channel count */
-        view.setUint16(22, 1, true);
-        /* sample rate */
-        view.setUint32(24, 16000, true);
-        /* byte rate (sample rate * block align) */
-        view.setUint32(28, 16000 * 4, true);
-        /* block align (channel count * bytes per sample) */
-        view.setUint16(32, 1 * 2, true);
-        /* bits per sample */
-        view.setUint16(34, 16, true);
-        /* data chunk identifier */
-        this.writeString(view, 36, 'data');
-        /* data chunk length */
-        view.setUint32(40, samples.length * 2, true);
-
-        this.floatTo16BitPCM(view, 44, samples);
-
-        return view;
-    };
-
-    downSample = (array) => {
-        let tmp = 0;
-        let arr = [];
-        array.forEach((subE, subI) => {
-            if (subI === 0 || subI % 3 !== 0) {
-                tmp += subE;
-            }
-            else {
-                arr.push(tmp / 3);
-                tmp = 0;
-            }
-        });
-        return arr;
-    };
-
-
-    getSum = (arr, i, j) => {
-        // console.log(`本次求和起始和终止位置 ${i}, ${j}`);
-        let sum = 0;
-        i = i || 0;
-        j = j || arr.length;
-
-        if (i >= j)  return -1;
-        while (i < j) {
-            sum += arr[i] > 0 ? arr[i] : -arr[i];
-            ++i
-        }
-        console.log(`求和结果如下：${sum}`);
-        return sum;
-    };
-
-    findEffectiveBuffer = (originBuffer) => {
-        /*
-        * input: OriginBuffer:[...]
-        * return: {
-        *     Container: [[effectiveBuffer1], [2], ...],
-        *     prevTailArray: [...]
-        * */
-        const JudgedEffectiveBufferStore = [];
-        const residualJudgedEffectiveBuffer = [];
-        const { energyThreshold, intervalThreshold }= this.props;
-        let i = 0, effectiveState = false;
-        let effectiveBuffer = [];
-
-        effectiveBuffer.push([...this.RESIDUAL.judgedEffectiveBuffer]);
-        let concatenatedBuffer = [...this.RESIDUAL.noJudgedBuffer, ...originBuffer];
-        const concatenatedBufferLen = concatenatedBuffer.length;
-
-        while (i + intervalThreshold < concatenatedBufferLen) {
-            /*
-            * 本次覆盖的范围为有效范围, 如果继续移动，范围终点就会超过concatenatedBufferLen，决策不进行下次移动
-            * 设置残余了buffer，停止循环。
-            * */
-            // console.log("当前轮次的起始位置：", i);
-            let sumOfArrayInterval = this.getSum(concatenatedBuffer, i, i + intervalThreshold);
-
-            if (sumOfArrayInterval > energyThreshold) {
-                // console.log("超过阈值");
-                effectiveState = true;
-                effectiveBuffer.push(...concatenatedBuffer.slice(i, i + intervalThreshold));
-                i += intervalThreshold;
-            }
-            else {
-                if (effectiveState) {
-                    // console.log("没超过阈值，但是受到上一次的影响");
-                    effectiveBuffer.push(...concatenatedBuffer.slice(i, i + intervalThreshold));
-                    JudgedEffectiveBufferStore.push(effectiveBuffer);
-                    effectiveState = false;
-                    effectiveBuffer = []; // 识别一段语音结束
-                    i += intervalThreshold;
-                }
-                ++i;
-            }
-        }
-
-        if (effectiveBuffer.length !== 0) {
-            /*
-            * 当结尾时均为有效语音时，无法执行effectiveState=false语句，这个部分语音应当被下一段拼接。
-            * */
-            residualJudgedEffectiveBuffer.push(...effectiveBuffer);
-        }
-
-        return {
-            judgedEffectiveBufferStore: JudgedEffectiveBufferStore,
-            residual: {
-                judgedEffectiveBuffer: residualJudgedEffectiveBuffer,
-                noJudgedBuffer: concatenatedBuffer.slice(i)
-            }
-        };
-    };
-
-    transformBufferToWAV = (effectiveBuffer) => {
-        let dataSample = this.setBuffer(effectiveBuffer);
-        this.exportWAV(dataSample);
-    };
-
-    setBuffer = (e) => {
-        let result = new Float32Array(e.length);
-        result.set(e, 0);
-        return result;
-    };
-
-    exportWAV = (sample) => {
-        let dataview = this.encodeWAV(sample);
-        let audioBlob = new Blob([dataview], {type: 'audio/wav'});
-
-        /*
-            打印base64录音编码处
-        */
-        let reader = new FileReader();
-        reader.addEventListener("load", (e) => {
-            console.log(e.target.result);
-        });
-        reader.readAsDataURL(audioBlob);
-    };
-
     handleRecordError = (e) => {
         let msg;
         switch (e.code || e.name) {
@@ -271,133 +109,113 @@ class IndexPage extends Component {
         this.openNotificationWithIcon("error", msg);
     };
 
-    postToServer = (formData) => {
-        console.log(`上交前的数据：${formData}`);
-        const {dispatch} = this.props;
-        dispatch({
-            type: 'fetchText',
-            payload: formData
-        });
-    };
+    postToServer = (blob) => {
+        let formData = new FormData();
+        formData.append("user_id", USER_ID.toString());
+        console.log(formData)
+        formData.append("timestamp", Date.now().toString());
+        formData.append("origin_audio", blob);
 
-    resampleBlobData = (blob) => {
-        const file = new File(blob, `${Date.now()}.wav`);
-        return new Promise((resolve) => {
-            // resampler(file, 16000, e => {
-            //     e.getBlob(e => {
-            //         resolve(e);
-            //         /*
-            //             打印base64录音编码处
-            //         */
-            //         // let reader = new FileReader();
-            //         // reader.addEventListener("load", (e) => {
-            //         //     console.log(e.target.result);
-            //         // });
-            //         // reader.readAsDataURL(e);
-            //     });
-            // });
+        const options =  {
+            method: 'POST',
+            body: formData
+        };
+
+        fetch(UPLOAD_URL, options)
+        .then(this.checkStatus)
+        .then(this.parseJSON)
+        .then(data => {
+            const { timestamp, text_store } = data;
+            const dataSource = this.state.dataSource;
+            let text = '';
+            text_store.forEach((e, i) => {
+                if (i === text_store.length - 1) {
+                    text += e;
+                }
+                else {
+                    text += (e + '，');
+                }
+            });
+            let addedDataSource = dataSource.concat({
+                timestamp: timestamp,
+                text: text
+            });
+            this.setState({
+                dataSource: this.sortedByTimeStamp(addedDataSource)
+            });
         })
+        .catch(e => this.openNotificationWithIcon("error", e.toString()));
     };
 
     componentDidMount = () => {
-        this.openNotificationWithIcon("success", "资源加载成功，当浏览器提示需要使用麦克风时请点击“确定”。");
-        this.chunks = [];
-        this.RESIDUAL = {
-            judgedEffectiveBuffer: [],
-            noJudgedBuffer: []
+        const config = {
+            encoderSampleRate: 16000,
+            originalSampleRateOverride: 16000,
+            resampleQuality: 10
         };
-        this.buffers = [];
+
+        const options = {
+            audio: true
+        };
+
+        this.openNotificationWithIcon("success","加载页面成功", "即将初始化翻译功能，若浏览器询问是否开启麦克风权限，请您点击确定！");
+
+        navigator.mediaDevices.getUserMedia(options)
+            .then(stream => {
+                this.openNotificationWithIcon("success", "初始化成功", "请您点击页面中开始翻译的蓝色按钮！");
+                this.SPEENCH_EVENTS = hark(stream);
+                this.SPEENCH_EVENTS.on('stopped_speaking', this.handleInterruption);
+                this.SPEENCH_EVENTS.on('speaking', () => {
+                });
+
+                this.REC = new Recorder(config);
+                this.REC_STATE = {
+                    RECORD: false,
+                };
+                this.REC.ondataavailable = this.handleDataAvailable;
+            })
+            .catch(e => {
+                this.openNotificationWithIcon("error", `创建语音流失败:${e}`);
+            });
     };
 
-    handleStoppedSpeaking = () => {
-        this.setState({
-            recording: false
-        }, () => {
-            console.info("停止讲话，准备收集数据");
-            if (this.mediaRecorder) {
-                this.mediaRecorder.stop();
-            }
-        });
-    };
-
-    handleSpeaking = () => {
-        console.info("开始讲话，开始存储数据");
-        if (this.mediaRecorder) {
-            this.mediaRecorder.start(5000);
+    handleInterruption = () => {
+        if (this.REC_STATE.RECORD) {
+            console.log("一句话结束");
+            this.REC.stop();
+            this.REC.start();
         }
-        this.setState({
-            recording: true
-        });
     };
 
-    handleDataAvailable = (blob) => {
+    handleDataAvailable = (arrayBuffer) => {
+        const blob = new Blob([arrayBuffer], {type: "audio/wav"});
+        this.postToServer(blob);
+ 
+        // const fileReader = new FileReader();
+        // fileReader.onload = (e) => {
+        //     console.log(e.target.result);
+        // }
+        // fileReader.readAsDataURL(blob);
     };
 
     handleStart = () => {
-        const mediaConstraints = {audio: true};
+        this.REC.start();
+        this.REC_STATE.RECORD = true;
         this.setState({
             record: true
-        });
-        navigator.mediaDevices.getUserMedia(mediaConstraints)
-        .then(stream => {
-            this.audioContext = new AudioContext();
-            let input = this.audioContext.createMediaStreamSource(stream);
-            this.node = this.audioContext.createScriptProcessor(this.props.bufferLen, 1, 1);
-            this.node.onaudioprocess = (e) => {
-
-                if (!this.state.record) return;
-                let inputBuffers = e.inputBuffer.getChannelData(0);
-                this.buffers.push(...inputBuffers);
-
-                /*
-                * 此处为分段点，每个分段点处理一次
-                * */
-                if (this.buffers.length >= 48 * this.props.bufferLen) {
-                    this.setState({
-                        record: false
-                    }, () => {
-                        let originBuffer = this.buffers;
-
-                        let {judgedEffectiveBufferStore, residual} = this.findEffectiveBuffer(originBuffer);
-
-                        judgedEffectiveBufferStore.forEach( buffer => {
-                            this.transformBufferToWAV(buffer);
-                        });
-
-                        this.RESIDUAL = residual;
-                        console.log("结束了", this.RESIDUAL);
-                    });
-                }
-
-
-            };
-            input.connect(this.node);
-            this.node.connect(this.audioContext.destination);
-        })
-        .catch(e => {
-            this.handleRecordError(e);
         });
     };
 
     handleFinish = () => {
+        this.REC.stop();
+        this.REC_STATE.RECORD = false;
         this.setState({
             record: false
-        });
+        })
     };
 
     render() {
         let {record, dataSource, recording} = this.state;
-        let signalWord;
-
-        if (record && recording) {
-            signalWord = `暂停`;
-        }
-        else if (record && !recording) {
-            signalWord = `继续`;
-        }
-        else {
-            signalWord = `开始`;
-        }
 
         const cardTitle = (
             <Row>
@@ -415,8 +233,8 @@ class IndexPage extends Component {
 
         const renderListItem = (item) => {
             return (
-                <List.Item key={item.timeStamp} className={styles.listItem}>
-                    <div className={styles.listTitle}>{this.timeConverter(item.timeStamp)}</div>
+                <List.Item key={item.timestamp} className={styles.listItem}>
+                    <div className={styles.listTitle}>{this.timeConverter(item.timestamp)}</div>
                     <div className={styles.listText}>
                         {item.text} &nbsp;
                         <CopyToClipboard text={item.text}>
@@ -437,7 +255,7 @@ class IndexPage extends Component {
                     <Row>
                         <Col span={8} style={{textAlign: 'right'}}>
                             <Button type='primary'
-                                    onClick={this.handleStart}>{signalWord}翻译</Button>
+                                    onClick={this.handleStart} disabled={record}>开始翻译</Button>
                         </Col>
                         <Col offset={8} span={8} style={{textAlign: 'left'}}>
                             <Button type="primary" onClick={this.handleFinish}

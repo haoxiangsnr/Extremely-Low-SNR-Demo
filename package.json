@@ -10,7 +10,7 @@
     "antd": "^3.7.3",
     "babel-plugin-import": "^1.8.0",
     "dva": "^2.3.1",
-    "hark": "latest",
+    "hark": "^1.2.2",
     "lodash": "latest",
     "react": "^16.2.0",
     "react-dom": "^16.2.0"
