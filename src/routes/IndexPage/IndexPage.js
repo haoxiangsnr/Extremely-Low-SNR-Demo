@@ -15,14 +15,10 @@ import Header from '../../components/Header/Header';
 import Banner from '../../components/Banner/Banner';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import fetch from 'dva/fetch';
-import MediaStreamRecorder from 'msr'; // mediaRecord shim
-import hark from 'hark';    // VAD检测
 import randomNum from '../../utils/randomNum'; // 随机数
 import styles from './IndexPage.module.less';
 import _ from 'lodash';
-import resampler from '../../utils/resampler'; // 降采样
-import * as math from 'mathjs'
-import vad from '../../utils/vad'
+
 const POST_URL = `https://haoxiang.tech/post`;
 const USER_ID = randomNum(20);
 
@@ -287,19 +283,19 @@ class IndexPage extends Component {
     resampleBlobData = (blob) => {
         const file = new File(blob, `${Date.now()}.wav`);
         return new Promise((resolve) => {
-            resampler(file, 16000, e => {
-                e.getBlob(e => {
-                    resolve(e);
-                    /*
-                        打印base64录音编码处
-                    */
-                    // let reader = new FileReader();
-                    // reader.addEventListener("load", (e) => {
-                    //     console.log(e.target.result);
-                    // });
-                    // reader.readAsDataURL(e);
-                });
-            });
+            // resampler(file, 16000, e => {
+            //     e.getBlob(e => {
+            //         resolve(e);
+            //         /*
+            //             打印base64录音编码处
+            //         */
+            //         // let reader = new FileReader();
+            //         // reader.addEventListener("load", (e) => {
+            //         //     console.log(e.target.result);
+            //         // });
+            //         // reader.readAsDataURL(e);
+            //     });
+            // });
         })
     };
 
@@ -335,27 +331,6 @@ class IndexPage extends Component {
     };
 
     handleDataAvailable = (blob) => {
-        vad(blob)
-        // if (this.state.recording) {
-        //     this.chunks.push(blob);
-        // }
-        // else {
-        //     this.chunks.push(blob);
-        //     let formData = new FormData();
-        //     formData.append('userid', USER_ID);
-        //     formData.append('timestamp', Date.now().toString());
-        //
-        //     let chunks = this.chunks;
-        //     this.chunks = [];
-        //     this.resampleBlobData(chunks)
-        //     .then(newBlob => {
-        //         formData.append('content', newBlob);
-        //         this.postToServer(formData);
-        //     })
-        //     .catch(e => {
-        //         this.openNotificationWithIcon("error", "降采样失败", e.toString());
-        //     })
-        // }
     };
 
     handleStart = () => {

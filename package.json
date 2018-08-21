@@ -8,17 +8,12 @@
   },
   "dependencies": {
     "antd": "^3.7.3",
-    "audio-resampler": "^1.0.1",
     "babel-plugin-import": "^1.8.0",
     "dva": "^2.3.1",
     "hark": "latest",
     "lodash": "latest",
-    "mathjs": "^5.1.0",
-    "msr": "latest",
     "react": "^16.2.0",
-    "react-copy-to-clipboard": "^5.0.1",
-    "react-dom": "^16.2.0",
-    "webaudioloader": "lastest"
+    "react-dom": "^16.2.0"
   },
   "devDependencies": {
     "babel-plugin-dva-hmr": "^0.3.2",
