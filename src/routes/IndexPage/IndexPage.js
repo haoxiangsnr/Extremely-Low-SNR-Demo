@@ -76,7 +76,7 @@ class IndexPage extends Component {
     };
 
     sortedByTimeStamp = (objList) => {
-        return _.sortBy(objList, 'timeStamp');
+        return _.sortBy(objList, [(o) => {return -o.timestamp}]);
     };
 
     openNotificationWithIcon = (type, mess, des) => {
@@ -110,9 +110,8 @@ class IndexPage extends Component {
     };
 
     postToServer = (blob) => {
-        let formData = new FormData();
+        const formData = new FormData();
         formData.append("user_id", USER_ID.toString());
-        console.log(formData)
         formData.append("timestamp", Date.now().toString());
         formData.append("origin_audio", blob);
 
@@ -125,17 +124,8 @@ class IndexPage extends Component {
         .then(this.checkStatus)
         .then(this.parseJSON)
         .then(data => {
-            const { timestamp, text_store } = data;
-            const dataSource = this.state.dataSource;
-            let text = '';
-            text_store.forEach((e, i) => {
-                if (i === text_store.length - 1) {
-                    text += e;
-                }
-                else {
-                    text += (e + '，');
-                }
-            });
+            const { timestamp, text } = data;
+            const { dataSource } = this.state;
             let addedDataSource = dataSource.concat({
                 timestamp: timestamp,
                 text: text
@@ -163,9 +153,10 @@ class IndexPage extends Component {
         navigator.mediaDevices.getUserMedia(options)
             .then(stream => {
                 this.openNotificationWithIcon("success", "初始化成功", "请您点击页面中开始翻译的蓝色按钮！");
-                this.SPEENCH_EVENTS = hark(stream);
+                this.SPEENCH_EVENTS = hark(stream, {threshold: -50});
                 this.SPEENCH_EVENTS.on('stopped_speaking', this.handleInterruption);
                 this.SPEENCH_EVENTS.on('speaking', () => {
+                    console.log("开始录音事件", Date.now())
                 });
 
                 this.REC = new Recorder(config);
@@ -223,10 +214,7 @@ class IndexPage extends Component {
                     语音转换结果
                 </Col>
                 <Col span={12} style={{textAlign: 'right'}}>
-                    {recording ?
-                        <Icon type={'loading'}
-                              style={{color: '#40a9ff'}}/> :
-                        ''}
+                    {recording ? <Icon type={'loading'} style={{color: '#40a9ff'}}/> : ''}
                 </Col>
             </Row>
         );
@@ -234,15 +222,20 @@ class IndexPage extends Component {
         const renderListItem = (item) => {
             return (
                 <List.Item key={item.timestamp} className={styles.listItem}>
-                    <div className={styles.listTitle}>{this.timeConverter(item.timestamp)}</div>
-                    <div className={styles.listText}>
+
+                    <div className={styles.listTitle}>
+                        {this.timeConverter(item.timestamp)}
+                    </div>
+
+                    <div className={styles.listText} tabIndex={"0"}>
                         {item.text} &nbsp;
                         <CopyToClipboard text={item.text}>
-                            <Popover trigger="click" title="已复制">
+                            <Popover trigger="click" title="已复制" content={`${item.text}`}>
                                 <Icon type="copy" style={{color: '#40a9ff'}} />
                             </Popover>
                         </CopyToClipboard>
                     </div>
+
                 </List.Item>
             );
         };
