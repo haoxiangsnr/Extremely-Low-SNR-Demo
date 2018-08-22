@@ -21,8 +21,7 @@ import styles from './IndexPage.module.less';
 import _ from 'lodash';
 import Recorder from '../../utils/recorder';
 
-const POST_URL = `https://haoxiang.tech/post`;
-const UPLOAD_URL = `http://localhost:5000/upload`;
+const UPLOAD_URL = `https://upload.haoxiang.tech/`;
 const USER_ID = randomNum(20);
 
 class IndexPage extends Component {
