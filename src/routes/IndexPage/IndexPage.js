@@ -29,7 +29,7 @@ class IndexPage extends Component {
     static defaultProps = {
         bufferLen: 4096,
         energyThreshold: 100,
-        intervalThreshold: 4096*5
+        intervalThreshold: 4096 * 5
     };
 
     constructor(props) {
@@ -52,10 +52,10 @@ class IndexPage extends Component {
         const sec = a.getSeconds();
 
         const addZero = (i) => {
-           if (i < 10) {
-               return `0${i}`
-           }
-           return i;
+            if (i < 10) {
+                return `0${i}`
+            }
+            return i;
         };
 
         return `${month}月${date}日 ${addZero(hour)}:${addZero(min)}:${addZero(sec)}`;
@@ -75,7 +75,9 @@ class IndexPage extends Component {
     };
 
     sortedByTimeStamp = (objList) => {
-        return _.sortBy(objList, [(o) => {return -o.timestamp}]);
+        return _.sortBy(objList, [(o) => {
+            return -o.timestamp
+        }]);
     };
 
     openNotificationWithIcon = (type, mess, des) => {
@@ -114,26 +116,26 @@ class IndexPage extends Component {
         formData.append("timestamp", Date.now().toString());
         formData.append("origin_audio", blob);
 
-        const options =  {
+        const options = {
             method: 'POST',
             body: formData
         };
 
         fetch(UPLOAD_URL, options)
-        .then(this.checkStatus)
-        .then(this.parseJSON)
-        .then(data => {
-            const { timestamp, text } = data;
-            const { dataSource } = this.state;
-            let addedDataSource = dataSource.concat({
-                timestamp: timestamp,
-                text: text
-            });
-            this.setState({
-                dataSource: this.sortedByTimeStamp(addedDataSource)
-            });
-        })
-        .catch(e => this.openNotificationWithIcon("error", e.toString()));
+            .then(this.checkStatus)
+            .then(this.parseJSON)
+            .then(data => {
+                const {timestamp, text} = data;
+                const {dataSource} = this.state;
+                let addedDataSource = dataSource.concat({
+                    timestamp: timestamp,
+                    text: text
+                });
+                this.setState({
+                    dataSource: this.sortedByTimeStamp(addedDataSource)
+                });
+            })
+            .catch(e => this.openNotificationWithIcon("error", e.toString()));
     };
 
     componentDidMount = () => {
@@ -147,7 +149,7 @@ class IndexPage extends Component {
             audio: true
         };
 
-        this.openNotificationWithIcon("success","加载页面成功", "即将初始化翻译功能，若浏览器询问是否开启麦克风权限，请您点击确定！");
+        this.openNotificationWithIcon("success", "加载页面成功", "即将初始化翻译功能，若浏览器询问是否开启麦克风权限，请您点击确定！");
 
         navigator.mediaDevices.getUserMedia(options)
             .then(stream => {
@@ -180,7 +182,7 @@ class IndexPage extends Component {
     handleDataAvailable = (arrayBuffer) => {
         const blob = new Blob([arrayBuffer], {type: "audio/wav"});
         this.postToServer(blob);
- 
+
         // const fileReader = new FileReader();
         // fileReader.onload = (e) => {
         //     console.log(e.target.result);
@@ -206,7 +208,10 @@ class IndexPage extends Component {
 
     render() {
         let {record, dataSource, recording} = this.state;
-
+        const BannerDataSource = [
+            "1. 请使用最新版谷歌浏览器（Chrome Web Browser）或火狐浏览器（Firefox Web Browser）。",
+            "2. 正常启动会提示 “初始化成功” 字样，若未出现提示，请检查麦克风是否正常，并使用推荐的浏览器。",
+        ];
         const cardTitle = (
             <Row>
                 <Col span={12} style={{textAlign: 'left'}}>
@@ -230,7 +235,7 @@ class IndexPage extends Component {
                         {item.text} &nbsp;
                         <CopyToClipboard text={item.text}>
                             <Popover trigger="click" title="已复制" content={`${item.text}`}>
-                                <Icon type="copy" style={{color: '#40a9ff'}} />
+                                <Icon type="copy" style={{color: '#40a9ff'}}/>
                             </Popover>
                         </CopyToClipboard>
                     </div>
@@ -256,7 +261,7 @@ class IndexPage extends Component {
                     </Row>
                 </Layout.Header>
 
-                <Banner/>
+                <Banner dataSource={BannerDataSource} header={"注意"}/>
 
                 <Layout className={styles.content}>
                     <Row>
@@ -277,6 +282,7 @@ class IndexPage extends Component {
 }
 
 IndexPage.propTypes = {};
+
 function mapStatetoProps(state) {
     return {dataSource: state.fetchText};
 }

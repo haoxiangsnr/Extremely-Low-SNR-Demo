@@ -1,18 +1,18 @@
-import {Layout,Icon, Menu} from 'antd';
+import {Layout, Icon, Menu} from 'antd';
 import {Link} from 'dva/router'
 import styles from './Header.module.less'
 
-function Header ({selectedKeys,children}) {
+function Header({selectedKeys, children}) {
     return (
         <Layout>
             <Layout.Header theme="light" className={styles.header}>
-                <div className={styles.title}><Icon type="api" />语音实时翻译</div>
+                <div className={styles.title}><Icon type="api"/>Speech Process</div>
                 <Menu
                     className={styles.menu}
                     mode="horizontal"
                     selectedKeys={selectedKeys}>
-                    <Menu.Item key="1"><Link to={""}>单用户（Beta）</Link></Menu.Item>
-                    <Menu.Item key="2"><Link to={"multiUser"}>多用户（正在开发）</Link></Menu.Item>
+                    {/* <Menu.Item key="1"><Link to={""}>ASR online (Mandarin)</Link></Menu.Item> */}
+                    <Menu.Item key="2"><Link to={"speechEnhancement"}>Speech Enhancement</Link></Menu.Item>
                 </Menu>
             </Layout.Header>
         </Layout>
