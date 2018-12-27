@@ -4,6 +4,9 @@
 
 We provide a demo for paper. 
 
+## Demo
+
+Visit demo: https://haoxiangsnr.github.io/low_snr_demo/
 
 ## Training Dataset
 
@@ -21,7 +24,3 @@ We employ babble, factoryfloor1, destroyerengine and destroyerops from NOISEX-92
 
 We mix the 280 utterance with these noise at 0dB, -5dB, -10dB and -15dB
 SNR to create the training dataset. Beside these noises, we use factoryfloor2 to evaluate generalization performance. We mix all five noises with the remaining 120 utterance at 0dB, -3dB, -5dB, -7dB, -10dB, -12dB and -15dB SNR to create the testing dataset, where -3dB, -7dB and -12dB are unseen SNR conditions.
-
-## Demo
-
-Visit demo: http://202.207.12.159:9000
