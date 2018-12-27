@@ -25,7 +25,7 @@ class SpeechEnhancement extends React.Component {
     handleChange = (info) => {
         console.log(info)
         if (info.file.size <= 2000000) {
-            if (info.file.name.slice(-3) == "wav") {
+            if (info.file.name.slice(-3) === "wav") {
                 this.setState({
                     file: info.file
                 });
@@ -109,7 +109,7 @@ class SpeechEnhancement extends React.Component {
 
         const BannerDataSource = [
             "1. Please use the latest version of Chrome Web Browser or Firefox Web Browser.",
-            "2. Only audio files in wav format are supported, Only audio files in wav format are supported, Only audio files in wav format are supported, Only audio files in wav format are supported, Only audio files in wav format are supported, and the file size is required to be less than 2M.",
+            "2. Only audio files in wav format are supported, and the file size is required to be less than 2M.",
         ];
         
 
