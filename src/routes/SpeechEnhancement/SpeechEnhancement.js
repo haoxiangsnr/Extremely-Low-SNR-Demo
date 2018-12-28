@@ -6,7 +6,7 @@ import Banner from "../../components/Banner/Banner";
 import reqwest from 'reqwest';
 
 
-const SPEECH_ENHANCEMENT_URL = "http://202.207.12.159:9000";
+const SPEECH_ENHANCEMENT_URL = "https://202.207.12.159:9000";
 
 class SpeechEnhancement extends React.Component {
     state = {
