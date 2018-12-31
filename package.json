@@ -13,7 +13,9 @@
     "hark": "^1.2.2",
     "lodash": "latest",
     "react": "^16.2.0",
-    "react-dom": "^16.2.0"
+    "react-copy-to-clipboard": "^5.0.1",
+    "react-dom": "^16.2.0",
+    "reqwest": "^2.0.5"
   },
   "devDependencies": {
     "babel-plugin-dva-hmr": "^0.3.2",
