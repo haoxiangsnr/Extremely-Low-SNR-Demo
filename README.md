@@ -4,7 +4,7 @@ This project is a demonstration of the paper *A robust speech enhancement approa
 
 ## Usage
 
-Visit this [link](http://202.207.12.159:9000) to enter the demo page. You can select the noisy speech by clicking the button "select noisy speech" and click the "Start enhancement" button to upload the noisy speech to our model. 
+Visit this [link](http://202.207.12.159:9000) to enter the demo page. You can select the noisy speech by clicking the button "Select noisy speech" and click the "Start enhancement" button to upload the noisy speech to our model. 
 
 After the model denoises the speech, the button "Download enhanced speech" will appear on the page. You can click this button to download the enhanced speech.
 
