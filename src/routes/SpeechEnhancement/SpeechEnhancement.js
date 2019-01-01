@@ -6,7 +6,7 @@ import Banner from "../../components/Banner/Banner";
 import reqwest from 'reqwest';
 
 
-const SPEECH_ENHANCEMENT_URL = "https://202.207.12.159:9000";
+const SPEECH_ENHANCEMENT_URL = "http://202.207.12.159:5000";
 
 class SpeechEnhancement extends React.Component {
     state = {
@@ -23,7 +23,6 @@ class SpeechEnhancement extends React.Component {
     };
 
     handleChange = (info) => {
-        console.log(info)
         if (info.file.size <= 2000000) {
             if (info.file.name.slice(-3) === "wav") {
                 this.setState({
@@ -122,7 +121,7 @@ class SpeechEnhancement extends React.Component {
                     <Row>
                         <Col span={14} offset={5}>
                             <Upload {...props}>
-                                <Button><Icon type="upload" />Select noisy speech file</Button>
+                                <Button><Icon type="upload" />Select noisy speech</Button>
                             </Upload>
                         </Col>
                     </Row>
