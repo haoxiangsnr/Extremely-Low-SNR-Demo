@@ -13,7 +13,7 @@ After the model denoises the speech, the button "Download enhanced speech" will 
 1. Only upload voice files of 2MB or less, wav format. The recommended sampling rate is 44100Hz.
 2. Please use the latest version of modern browsers, such as the latest version of [Google Chrome](https://www.google.com/chrome/), [Firefox](https://www.mozilla.org/en-US/firefox/new/).
 
-## Featrues
+## Model featrues
 
 The model has been described in detail in the paper, and only some of the features of the model are emphasized here.
 
