@@ -6,10 +6,15 @@ This project is a demonstration of the paper *A robust speech enhancement approa
 
 Visit this [link](http://202.207.12.159:9000) to enter the demo page. You can select the noisy speech by clicking the button "Select noisy speech" and click the "Start enhancement" button to upload the noisy speech to our model. After the model denoises the speech, the button "Download enhanced speech" will appear on the page. You can click this button to download the enhanced speech.
 
-#### Note
+### Note
 
-1. Only upload file of 2MB or less, wav format. The recommended sampling rate is 44100Hz.
-2. Please use the latest version of modern browsers, such as the latest version of [Google Chrome](https://www.google.com/chrome/), [Firefox](https://www.mozilla.org/en-US/firefox/new/).
+#### Uploaded file
+
+2MB or less, wav format. The recommended sampling rate is 44100Hz.
+
+#### Browsers Support
+
+Please use the latest version of modern browsers, such as the latest version of [Google Chrome](https://www.google.com/chrome/), [Firefox](https://www.mozilla.org/en-US/firefox/new/).
 
 ## Model characteristics
 
