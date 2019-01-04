@@ -19,6 +19,6 @@ The model has been described in detail in the paper, and only some of the charac
 
 The [TIMIT](https://catalog.ldc.upenn.edu/LDC93S1) and [NOISEX-92](http://spib.linse.ufsc.br/noise.html) corpus are used in the experiment. The TIMIT corpus is used as the clean database and the NOISEX-92 corpus are used as interference, respectively. We randomly select 40 speakers from the TIMIT corpus and then use the first 7 sentences of each speaker as the training utterance. We employ babble, factoryfloor1, destroyerengine and destroyerops from NOISEX-92 corpus for training. We mix the 280 utterance with these noise under 0dB, -5dB, -10dB and -15dB SNRs to create the training dataset. The training dataset of the model is very small.
 
-### extremely Low SNR conditions
+### Extremely Low SNR conditions
 
 Our model performs very well at extremely low SNR conditions. The current SNR conditons tested include: -3dB, -5dB, -7dB, -10dB, -12dB and -15dB. Even our model is not trained under some low SNR conditions, such as -3dB, -7dB and -12dB.
