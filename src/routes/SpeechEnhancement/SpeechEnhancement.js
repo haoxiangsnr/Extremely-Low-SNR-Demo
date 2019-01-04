@@ -107,8 +107,9 @@ class SpeechEnhancement extends React.Component {
         };
 
         const BannerDataSource = [
-            "1. Please use the latest version of Chrome Web Browser or Firefox Web Browser.",
-            "2. Only audio files in wav format are supported, and the file size is required to be less than 2M.",
+            (<div>1. The size of the uploaded file is 2MB or less, and the format is required to be wav format. The recommended sampling rate is 44100Hz. According to <a href="https://github.com/haoxiangsnr/low_snr_demo/blob/demo/README.md#model-characteristics">the characteristics of the model</a>, the recommended SNR of the noisy speech is -5~-15dB.</div>),
+            (<div>2. You can use <a href="https://github.com/mpariente/pystoi">STOI</a> (Short-Time Objective Intelligibility) and <a href="https://www.itu.int/rec/T-REC-P.862">PESQ</a> (Perceptual evaluation of speech quality) as measures to evaluate the quality and intelligibility of the enhanced speech separately.</div>),
+            (<div>3. Please use the latest version of modern browsers, such as the latest version of <a href="https://www.google.com/chrome/">Google Chrome</a> and <a href="https://www.mozilla.org/en-US/firefox/new/">Firefox</a>.</div>)
         ];
         
 

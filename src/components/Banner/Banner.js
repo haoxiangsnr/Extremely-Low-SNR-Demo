@@ -12,7 +12,6 @@ export default function Banner ({children, header, dataSource}) {
             <Col span={14} offset={5}>
                 <List
                     dataSource={dataSource}
-                    size={"small"}
                     bordered={true}
                     header={header}
                     renderItem={item => (<List.Item> {item} </List.Item>)}
