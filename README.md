@@ -1,6 +1,6 @@
 ![low_snr_demo](static/low_snr_demo.png)
 
-This project is a demonstration of the paper *A robust speech enhancement approach based on deep adversarial learning for extremely low signal-to-noise condition*.
+This repository is a demonstration of the paper *A robust speech enhancement approach based on deep adversarial learning for extremely low signal-to-noise condition*.
 
 ## Usage
 
