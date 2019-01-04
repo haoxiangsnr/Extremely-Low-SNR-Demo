@@ -6,15 +6,11 @@ This project is a demonstration of the paper *A robust speech enhancement approa
 
 Visit this [link](http://202.207.12.159:9000) to enter the demo page. You can select the noisy speech by clicking the button "Select noisy speech" and click the "Start enhancement" button to upload the noisy speech to our model. After the model denoises the speech, the button "Download enhanced speech" will appear on the page. You can click this button to download the enhanced speech.
 
-### Note
+#### Note
 
-#### Uploaded file
-
-2MB or less, wav format. The recommended sampling rate is 44100Hz.
-
-#### Browsers Support
-
-Please use the latest version of modern browsers, such as the latest version of [Google Chrome](https://www.google.com/chrome/), [Firefox](https://www.mozilla.org/en-US/firefox/new/).
+1. The size of the uploaded file is 2MB or less, and the format is required to be wav format. The recommended sampling rate is 44100Hz. According to the characteristics of the model, the recommended SNR of the noisy speech is -10~-15dB.
+2. You can use [STOI](https://github.com/mpariente/pystoi) (Short-Time Objective Intelligibility) and [PESQ](https://www.itu.int/rec/T-REC-P.862) (Perceptual evaluation of speech quality) as measures to evaluate the quality and intelligibility of the enhanced speech separately.
+3. Please use the latest version of modern browsers, such as the latest version of [Google Chrome](https://www.google.com/chrome/), [Firefox](https://www.mozilla.org/en-US/firefox/new/).
 
 
 ## Model characteristics
