@@ -8,9 +8,9 @@ Visit this [link](http://202.207.12.159:9000) to enter the demo page. You can se
 
 #### Note
 
-1. The size of the uploaded file is 2MB or less, and the format is required to be wav format. The recommended sampling rate is 44100Hz. According to [the characteristics of the model](https://github.com/haoxiangsnr/low_snr_demo/blob/demo/README.md#model-characteristics), the recommended SNR of the noisy speech is -10~-15dB.
+1. The size of the uploaded file is 2MB or less, and the format is required to be wav format. The recommended sampling rate is 44100Hz. According to [the characteristics of the model](https://github.com/haoxiangsnr/low_snr_demo/blob/demo/README.md#model-characteristics), the recommended SNR of the noisy speech is -5~-15dB.
 2. You can use [STOI](https://github.com/mpariente/pystoi) (Short-Time Objective Intelligibility) and [PESQ](https://www.itu.int/rec/T-REC-P.862) (Perceptual evaluation of speech quality) as measures to evaluate the quality and intelligibility of the enhanced speech separately.
-3. Please use the latest version of modern browsers, such as the latest version of [Google Chrome](https://www.google.com/chrome/), [Firefox](https://www.mozilla.org/en-US/firefox/new/).
+3. Please use the latest version of modern browsers, such as the latest version of [Google Chrome](https://www.google.com/chrome/) and [Firefox](https://www.mozilla.org/en-US/firefox/new/).
 
 
 ## Model characteristics
@@ -23,4 +23,4 @@ The [TIMIT](https://catalog.ldc.upenn.edu/LDC93S1) and [NOISEX-92](http://spib.l
 
 ### Extremely Low SNR conditions
 
-Our model performs very well at extremely low SNR conditions. The current SNR conditons tested include: -3dB, -5dB, -7dB, -10dB, -12dB and -15dB. Even our model is not trained under some low SNR conditions, such as -3dB, -7dB and -12dB.
+Our model performs very well at extremely low SNR conditions (Use PESQ and STOI as measures). The current SNR conditons tested include: -3dB, -5dB, -7dB, -10dB, -12dB and -15dB. Even our model is not trained under some low SNR conditions, such as -3dB, -7dB and -12dB.
