@@ -1,5 +1,5 @@
-import {queryText} from "../services/text";
-import _ from "lodash";
+// import {queryText} from "../services/text";
+// import _ from "lodash";
 import request from "../utils/request"
 
 function fetchPost (formData) {

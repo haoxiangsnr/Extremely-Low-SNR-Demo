@@ -50,7 +50,7 @@ class SpeechEnhancement extends React.Component {
         });
 
         reqwest({
-            url: SPEECH_ENHANCEMENT_URL + "/" + "enhancement",
+            url: `${SPEECH_ENHANCEMENT_URL}/enhancement`,
             method: "post",
             processData: false,
             data: formData,
@@ -108,15 +108,16 @@ class SpeechEnhancement extends React.Component {
 
         const BannerDataSource = [
             (<div>1. The size of the uploaded file is 2MB or less, and the format is required to be wav format. The recommended sampling rate is 44100Hz. According to <a href="https://github.com/haoxiangsnr/low_snr_demo/blob/demo/README.md#model-characteristics">the characteristics of the model</a>, the recommended SNR of the noisy speech is -5~-15dB.</div>),
-            (<div>2. You can use <a href="https://github.com/mpariente/pystoi">STOI</a> (Short-Time Objective Intelligibility) and <a href="https://www.itu.int/rec/T-REC-P.862">PESQ</a> (Perceptual evaluation of speech quality) as measures to evaluate the quality and intelligibility of the enhanced speech separately.</div>),
-            (<div>3. Please use the latest version of modern browsers, such as the latest version of <a href="https://www.google.com/chrome/">Google Chrome</a> and <a href="https://www.mozilla.org/en-US/firefox/new/">Firefox</a>.</div>)
+            (<div>2. We randomly select 40 speakers from the <a href="https://catalog.ldc.upenn.edu/LDC93S1">TIMIT corpus</a> and then use the first 7 sentences of each speaker as the training utterance. We employ babble, factoryfloor1, destroyerengine and destroyerops from <a href="http://spib.linse.ufsc.br/noise.html">NOISEX-92</a> corpus for training. We mix the 280 utterance with these noise under 0dB, -5dB, -10dB and -15dB SNRs to create the training dataset for the model. </div>),
+            (<div>3. You can use <a href="https://github.com/mpariente/pystoi">STOI</a> (Short-Time Objective Intelligibility) and <a href="https://www.itu.int/rec/T-REC-P.862">PESQ</a> (Perceptual evaluation of speech quality) as measures to evaluate the quality and intelligibility of the enhanced speech separately.</div>),
+            (<div>4. Please use the latest version of modern browsers, such as the latest version of <a href="https://www.google.com/chrome/">Google Chrome</a> and <a href="https://www.mozilla.org/en-US/firefox/new/">Firefox</a>.</div>)
         ];
         
 
         return (
             <div>
                 <Header selectedKeys={["2"]} />
-                <Layout.Header className={styles.header}/>
+                <Layout.Header className={styles.header} />
                 <Banner header={"Notification"} className={styles.banner} dataSource={BannerDataSource} />
                 <Layout className={styles.content}>
                     <Row>
